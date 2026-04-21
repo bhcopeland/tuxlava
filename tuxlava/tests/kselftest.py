@@ -112,7 +112,7 @@ class KSelftestBreakpoints(KSelfTest):
 
 class KSelftestBPF(KSelfTest):
     name = "kselftest-bpf"
-    timeout = 45
+    timeout = 120
 
 
 class KSelftestCachestat(KSelfTest):
