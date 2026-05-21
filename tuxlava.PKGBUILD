@@ -1,5 +1,5 @@
 pkgname=tuxlava
-pkgver=0.17.0
+pkgver=0.18.0
 pkgrel=1
 pkgdesc='TuxLAVA is a python library and tool to generate LAVA jobs'
 url='https://tuxlava.org/'
