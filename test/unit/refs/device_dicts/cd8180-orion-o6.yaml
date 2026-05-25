@@ -125,14 +125,14 @@ actions:
           commands:
           - insmod efinet
           - net_bootp
-          - 'linux (tftp,{SERVER_IP})/{KERNEL} console=ttyAMA2,115200 root=/dev/nfs rw nfsroot={NFS_SERVER_IP}:{NFSROOTFS},tcp,hard,nfsvers=3 ip=dhcp '
+          - 'linux (tftp,{SERVER_IP})/{KERNEL} console=ttyAMA0,115200 root=/dev/nfs rw nfsroot={NFS_SERVER_IP}:{NFSROOTFS},tcp,hard,nfsvers=3 ip=dhcp '
           - initrd (tftp,{SERVER_IP})/{RAMDISK}
           - boot
         ramdisk:
           commands:
           - insmod efinet
           - net_bootp
-          - 'linux (tftp,{SERVER_IP})/{KERNEL} console=ttyAMA2,115200 root=/dev/ram0 ip=dhcp '
+          - 'linux (tftp,{SERVER_IP})/{KERNEL} console=ttyAMA0,115200 root=/dev/ram0 ip=dhcp '
           - initrd (tftp,{SERVER_IP})/{RAMDISK}
           - boot
       grub-efi:

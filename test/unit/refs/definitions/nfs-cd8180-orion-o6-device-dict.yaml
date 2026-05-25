@@ -6,7 +6,7 @@ visibility: "public"
 
 context:
     arch: arm64
-    extra_kernel_args: 'rw console=ttyAMA2,115200 efi=noruntime earlycon=pl011,0x040d0000 arm-smmu-v3.disable_bypass=0 cma=640M acpi=force'
+    extra_kernel_args: 'rw console=ttyAMA0,115200 efi=noruntime earlycon=pl011,0x040d0000 arm-smmu-v3.disable_bypass=0 cma=640M acpi=force'
 
 timeouts:
   job:
