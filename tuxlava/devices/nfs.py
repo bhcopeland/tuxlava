@@ -321,7 +321,7 @@ class NfsCd8180OrionO6(NfsDevice):
     boot_method = "grub"
     needs_storage_prep = True
     storage_device = "/dev/nvme0n1p2"
-    device_kernel_args = "rw console=ttyAMA2,115200 efi=noruntime earlycon=pl011,0x040d0000 arm-smmu-v3.disable_bypass=0 cma=640M acpi=force"
+    device_kernel_args = "rw console=ttyAMA0,115200 efi=noruntime earlycon=pl011,0x040d0000 arm-smmu-v3.disable_bypass=0 cma=640M acpi=force"
     context_overrides = {
         "arch": "arm64",
     }
