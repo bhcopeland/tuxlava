@@ -1572,6 +1572,21 @@ def artefacts(tmp_path):
             [
                 "--device",
                 "fvp-aemva",
+                "--bl1",
+                "tf-bl1.bin",
+                "--fip",
+                "fip.bin",
+                "--rootfs",
+                "https://example.com/rootfs.ext4.zst",
+                "--parameters",
+                "DISABLE_FVP_ARM_V96_V97=1",
+            ],
+            "fvp-aemva-no-v97.yaml",
+        ),
+        (
+            [
+                "--device",
+                "fvp-aemva",
                 "--prompt",
                 "root@tuxlava",
             ],
