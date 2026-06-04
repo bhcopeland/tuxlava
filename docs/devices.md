@@ -48,6 +48,21 @@ fvp-morello-grub      |
 fvp-morello-oe        |
 fvp-morello-ubuntu    |
 
+!!! tip "Arm architecture version on fvp-aemva"
+    By default `fvp-aemva` runs the FVP model at Armv9.7, exposing
+    SVE2 v3, SME2 v3, LSFE and the FP16 matrix instructions. Armv9.6
+    made `HCR_EL2.E2H` read-as-one, so nVHE is no longer
+    architecturally possible. Stable kernels that always run the
+    nVHE-flavoured SVE EL2 init (between the refactor in v5.15 and
+    the v6.5 hVHE rework) hang when writing `ZCR_EL2`. In practice
+    that affects **linux-5.15.y** and **linux-6.1.y**. Older kernels
+    (linux-5.10.y) kept a VHE guard around the nVHE setup and still
+    boot at Armv9.7; newer kernels (linux-6.6.y and later) inherit
+    the v6.5 hVHE rework and also boot unchanged. Pass
+    `--parameters FVP_ARM_ARCH_VERSION=9.5` to clamp the model to
+    Armv9.5 for the affected branches. The same knob can be used to
+    target older architecture versions when newer ones cause issues.
+
 # NFS devices
 
 Device                 |
