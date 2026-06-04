@@ -8,6 +8,8 @@ visibility: "{{ visibility }}"
 
 {%- set deploy_timeout = timeouts.deploy|default(deploy_timeout) %}
 {%- set boot_timeout = timeouts.boot|default(boot_timeout) %}
+{%- set fvp_arch = parameters.get("FVP_ARM_ARCH_VERSION", "9.7").split(".") %}
+{%- set fvp_arch_version = (fvp_arch[0] | int, fvp_arch[1] | int) %}
 
 timeouts:
   job:
@@ -72,10 +74,10 @@ actions:
 - boot:
     method: fvp
     docker:
-      name: "docker.io/shrinkwraptool/base-slim:2025.12.0"
+      name: "docker.io/shrinkwraptool/base-slim:2026.3.0"
       local: false
       container_name: "{{ tmpdir.name }}"
-    image: "/tools/Base_RevC_AEMvA_pkg/models/Linux64_GCC-9.3/FVP_Base_RevC-2xAEMvA"
+    image: "/tools/FVP_Base_RevC_AEMvA_11.31_28/bin/FVP_Base_RevC-2xAEMvA"
     version_string: "Fast Models [^\\n]+"
     timeout:
       minutes: {{ boot_timeout }}
@@ -144,14 +146,26 @@ actions:
     - "-C cluster0.has_arm_v9-3=1"
     - "-C cluster0.has_arm_v9-4=1"
     - "-C cluster0.has_arm_v9-5=1"
+{% if fvp_arch_version >= (9, 7) %}
+    - "-C cluster0.has_arm_v9-7=1"
+{% endif %}
+{% if fvp_arch_version >= (9, 6) %}
+    - "-C cluster0.has_arm_v9-6=1"
+{% endif %}
     - "-C cluster0.has_branch_target_exception=1"
     - "-C cluster0.has_brbe=1"
     - "-C cluster0.has_brbe_v1p1=1"
     - "-C cluster0.has_const_pac=1"
+{% if fvp_arch_version >= (9, 7) %}
+    - "-C cluster0.has_f16f32dot=1"
+    - "-C cluster0.has_f16f32mm=1"
+    - "-C cluster0.has_f16mm=1"
+{% endif %}
     - "-C cluster0.has_gcs=1"
     - "-C cluster0.has_hpmn0=1"
     - "-C cluster0.has_large_system_ext=1"
     - "-C cluster0.has_large_va=1"
+    - "-C cluster0.has_lsfe=1"
     - "-C cluster0.has_permission_indirection_s1=1"
     - "-C cluster0.has_permission_indirection_s2=1"
     - "-C cluster0.has_permission_overlay_s1=1"
@@ -169,9 +183,19 @@ actions:
     - "-C cluster0.brbe_disable_recording=1"
 {% endif %}
     - "-C cluster0.stage12_tlb_size=1024"
+{% if fvp_arch_version >= (9, 7) %}
+    - "-C cluster0.sve.has_b16mm=1"
+{% endif %}
     - "-C cluster0.sve.has_sme2=1"
     - "-C cluster0.sve.has_sme=1"
     - "-C cluster0.sve.has_sve2=1"
+{% if fvp_arch_version >= (9, 7) %}
+    - "-C cluster0.sve.sme2_version=3"
+    - "-C cluster0.sve.sve2_version=3"
+{% elif fvp_arch_version >= (9, 6) %}
+    - "-C cluster0.sve.sme2_version=2"
+    - "-C cluster0.sve.sve2_version=2"
+{% endif %}
     - "-C cluster1.NUM_CORES=4"
     - "-C cluster1.PA_SIZE=48"
     - "-C cluster1.check_memory_attributes=0"
@@ -198,14 +222,26 @@ actions:
     - "-C cluster1.has_arm_v9-3=1"
     - "-C cluster1.has_arm_v9-4=1"
     - "-C cluster1.has_arm_v9-5=1"
+{% if fvp_arch_version >= (9, 7) %}
+    - "-C cluster1.has_arm_v9-7=1"
+{% endif %}
+{% if fvp_arch_version >= (9, 6) %}
+    - "-C cluster1.has_arm_v9-6=1"
+{% endif %}
     - "-C cluster1.has_branch_target_exception=1"
     - "-C cluster1.has_brbe=1"
     - "-C cluster1.has_brbe_v1p1=1"
     - "-C cluster1.has_const_pac=1"
+{% if fvp_arch_version >= (9, 7) %}
+    - "-C cluster1.has_f16f32dot=1"
+    - "-C cluster1.has_f16f32mm=1"
+    - "-C cluster1.has_f16mm=1"
+{% endif %}
     - "-C cluster1.has_gcs=1"
     - "-C cluster1.has_hpmn0=1"
     - "-C cluster1.has_large_system_ext=1"
     - "-C cluster1.has_large_va=1"
+    - "-C cluster1.has_lsfe=1"
     - "-C cluster1.has_permission_indirection_s1=1"
     - "-C cluster1.has_permission_indirection_s2=1"
     - "-C cluster1.has_permission_overlay_s1=1"
@@ -223,9 +259,19 @@ actions:
     - "-C cluster1.brbe_disable_recording=1"
 {% endif %}
     - "-C cluster1.stage12_tlb_size=1024"
+{% if fvp_arch_version >= (9, 7) %}
+    - "-C cluster1.sve.has_b16mm=1"
+{% endif %}
     - "-C cluster1.sve.has_sme2=1"
     - "-C cluster1.sve.has_sme=1"
     - "-C cluster1.sve.has_sve2=1"
+{% if fvp_arch_version >= (9, 7) %}
+    - "-C cluster1.sve.sme2_version=3"
+    - "-C cluster1.sve.sve2_version=3"
+{% elif fvp_arch_version >= (9, 6) %}
+    - "-C cluster1.sve.sme2_version=2"
+    - "-C cluster1.sve.sve2_version=2"
+{% endif %}
     - "-C gic_distributor.has_nmi=1"
     - "-C pci.pci_smmuv3.mmu.SMMU_AIDR=2"
     - "-C pci.pci_smmuv3.mmu.SMMU_IDR0=135263935"
