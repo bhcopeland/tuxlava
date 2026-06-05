@@ -1,0 +1,77 @@
+actions:
+- deploy:
+    images:
+      bios:
+        url: https://ci.trustedfirmware.org/job/tf-a-builder/2422951/artifact/artefacts/debug/qemu_bios.bin
+      initrd:
+        compression: gz
+        image_arg: -initrd {initrd}
+        url: https://ci.trustedfirmware.org/job/tf-a-builder/2422951/artifact/artefacts/debug/rootfs.bin.gz
+      kernel:
+        image_arg: -kernel {kernel}
+        url: https://ci.trustedfirmware.org/job/tf-a-builder/2422951/artifact/artefacts/debug/kernel.bin
+    to: tmpfs
+- boot:
+    media: tmpfs
+    method: qemu
+    prompts:
+    - root@tf-busyboot:/root#
+    timeout:
+      minutes: 2
+- test:
+    interactive:
+    - name: interactive_uart0_0
+      prompts:
+      - root@tf-busyboot:/root#
+      script:
+      - command: /bin/uname -a
+        name: interactive_command_uart0_0
+      successes:
+      - message: Linux
+context:
+  arch: aarch64
+  cpu: max
+  extra_options:
+  - -smp 1
+  - -m 1024
+  machine: virt
+device_type: qemu
+job_name: qemu-linux-qemu-default
+metadata:
+  build_url: https://ci.trustedfirmware.org/job/tf-a-builder/2422951/
+  emulator: qemu-virt
+  test_config: qemu-default
+priority: medium
+timeouts:
+  actions:
+    auto-login-action:
+      minutes: 2
+    boot-image-retry:
+      minutes: 2
+    boot-qemu-image:
+      minutes: 2
+    bootloader-action:
+      minutes: 3
+    bootloader-commands:
+      minutes: 3
+    bootloader-interrupt:
+      seconds: 30
+    bootloader-retry:
+      minutes: 3
+    download-retry:
+      minutes: 5
+    lava-test-shell:
+      minutes: 3
+    login-action:
+      minutes: 5
+    nfs-deploy:
+      minutes: 10
+    power-off:
+      seconds: 10
+    reset-device:
+      seconds: 30
+  connection:
+    minutes: 2
+  job:
+    minutes: 15
+visibility: public
