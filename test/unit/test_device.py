@@ -10,7 +10,8 @@ import pytest
 
 from tuxlava.__main__ import main
 from tuxlava.devices import Device
-from tuxlava.devices.fvp import FVPLAVA, FVPMorelloAndroid
+from tuxlava.devices.fvp import FVPMorelloAndroid
+from tuxlava.devices.lava import FVPLAVA
 from tuxlava.devices.qemu import QemuArmv5
 from tuxlava.exceptions import InvalidArgument
 
