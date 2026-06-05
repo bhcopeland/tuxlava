@@ -12,6 +12,7 @@ import yaml
 
 from tuxlava.devices import Device
 from tuxlava.devices.fvp import FVPDevice
+from tuxlava.devices.qemu import QemuDevice
 from tuxlava.exceptions import InvalidArgument
 
 
@@ -41,3 +42,7 @@ class LAVADevice(Device):
 
 class FVPLAVA(LAVADevice, FVPDevice):
     name = "fvp-lava"
+
+
+class QemuLAVA(LAVADevice, QemuDevice):
+    name = "qemu-lava"

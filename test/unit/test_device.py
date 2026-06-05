@@ -11,7 +11,7 @@ import pytest
 from tuxlava.__main__ import main
 from tuxlava.devices import Device
 from tuxlava.devices.fvp import FVPMorelloAndroid
-from tuxlava.devices.lava import FVPLAVA
+from tuxlava.devices.lava import FVPLAVA, QemuLAVA
 from tuxlava.devices.qemu import QemuArmv5
 from tuxlava.exceptions import InvalidArgument
 
@@ -23,6 +23,7 @@ def test_select():
     assert Device.select("qemu-armv5") == QemuArmv5
     assert Device.select("fvp-morello-android") == FVPMorelloAndroid
     assert Device.select("fvp-lava") == FVPLAVA
+    assert Device.select("qemu-lava") == QemuLAVA
 
     with pytest.raises(InvalidArgument):
         Device.select("Hello")
@@ -2077,6 +2078,15 @@ def artefacts(tmp_path):
         (
             [
                 "--device",
+                "qemu-lava",
+                "--job-definition",
+                f"{BASE}/refs/definitions/qemu-lava-job-definition.yaml",
+            ],
+            "qemu-lava-job-definition.yaml",
+        ),
+        (
+            [
+                "--device",
                 "qemu-arm64",
                 "--overlay",
                 "https://storage.tuxboot.com/overlays/debian/trixie/arm64/rt-tests/v2.8/rt-tests.tar.xz",
@@ -3539,6 +3549,7 @@ def test_definition(monkeypatch, mocker, capsys, tmpdir, artefacts, args, filena
             "'ssh-host', ssh-user', 'ssh-identity-file' are required argument for ssh device",
         ),
         (["--device", "fvp-lava"], "Missing argument --job-definition"),
+        (["--device", "qemu-lava"], "Missing argument --job-definition"),
         (
             [
                 "--device",
