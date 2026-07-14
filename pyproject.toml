@@ -29,3 +29,6 @@ tuxlava = "tuxlava.__main__:main"
 
 [tool.flit.sdist]
 include = ["test/"]
+
+[tool.coverage.run]
+omit = ["*.jinja2"]
