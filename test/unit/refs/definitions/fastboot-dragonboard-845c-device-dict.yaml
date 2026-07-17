@@ -81,4 +81,3 @@ actions:
     - 'root@(.*):[/~]#'
     - '/ #'
     - 'dragonboard-845c:'
-

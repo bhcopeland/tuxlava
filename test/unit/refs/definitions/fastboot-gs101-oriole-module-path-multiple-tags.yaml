@@ -88,4 +88,3 @@ actions:
     - '/ #'
     commands:
       - erase dtbo
-

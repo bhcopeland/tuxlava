@@ -9,12 +9,12 @@
 from typing import Any, Dict, List, Optional
 
 from tuxlava import templates
-from tuxlava.devices import Device
+from tuxlava.devices import Device, StorageDevice
 from tuxlava.exceptions import InvalidArgument
 from tuxlava.utils import compression, notnone, slugify
 
 
-class NfsDevice(Device):
+class NfsDevice(StorageDevice, Device):
     arch: str = ""
     lava_arch: str = ""
     machine: str = ""
@@ -37,10 +37,6 @@ class NfsDevice(Device):
     enable_network: bool = True
 
     boot_method: str = "u-boot"
-    # Whether device needs storage preparation (mkfs/mount scratch)
-    needs_storage_prep: bool = False
-    # Storage device path for prep-tests (only used if needs_storage_prep=True)
-    storage_device: str = "$(lava-target-storage SATA || lava-target-storage USB)"
     device_kernel_args: str = ""
     context_overrides: Dict[str, Any] = {}
 
@@ -138,9 +134,11 @@ class NfsDevice(Device):
             )
             for t in kwargs["tests"]
         ]
-        return templates.jobs().get_template("nfs.yaml.jinja2").render(
-            **kwargs
-        ) + "".join(tests)
+        return (
+            templates.jobs().get_template("nfs.yaml.jinja2").render(**kwargs)
+            + templates.jobs().get_template("storage-prep.yaml.jinja2").render(**kwargs)
+            + "".join(tests)
+        )
 
     def device_dict(
         self, context: Dict[str, Any], d_dict_config: Optional[Dict[str, Any]] = None
