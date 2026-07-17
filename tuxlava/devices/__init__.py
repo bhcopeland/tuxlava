@@ -23,6 +23,10 @@ class StorageDevice:
 
     needs_storage_prep: bool = False
     storage_device: str = "$(lava-target-storage SATA || lava-target-storage USB)"
+    # Size of the scratch filesystem, passed to mkfs.ext4 as fs-size (e.g.
+    # "32G"). Empty means the whole device. mke2fs scales the inode table and
+    # journal with the filesystem, so capping it on a big disk writes less.
+    storage_size: str = ""
     # Minutes reserved in the job timeout for the prep and teardown actions,
     # split evenly between the two.
     storage_timeout: int = 10
