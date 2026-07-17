@@ -32,7 +32,7 @@ context:
 {% block timeouts %}
 timeouts:
   job:
-    minutes: {{ deploy_download_timeout + deploy_timeout + boot_timeout + tests_timeout }}
+    minutes: {{ deploy_download_timeout + deploy_timeout + boot_timeout + tests_timeout + device.storage_prep_timeout }}
   connection:
     minutes: 2
   actions:

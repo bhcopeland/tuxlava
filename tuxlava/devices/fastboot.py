@@ -174,6 +174,9 @@ class FastbootDevice(StorageDevice, Device):
             templates.jobs().get_template(self.template).render(**kwargs)
             + templates.jobs().get_template("storage-prep.yaml.jinja2").render(**kwargs)
             + "".join(tests)
+            + templates.jobs()
+            .get_template("storage-teardown.yaml.jinja2")
+            .render(**kwargs)
         )
 
     def device_dict(
