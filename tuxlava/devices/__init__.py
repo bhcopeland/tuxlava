@@ -18,6 +18,13 @@ def subclasses(cls):
     )
 
 
+class StorageDevice:
+    """Devices with a scratch disk to format, mount and unmount per job."""
+
+    needs_storage_prep: bool = False
+    storage_device: str = "$(lava-target-storage SATA || lava-target-storage USB)"
+
+
 class Device:
     name: str = ""
     flag_use_pre_run_cmd: bool = False

@@ -87,7 +87,6 @@ actions:
     - '/ #'
     commands:
       - erase dtbo
-
 - test:
     timeout:
       minutes: 5

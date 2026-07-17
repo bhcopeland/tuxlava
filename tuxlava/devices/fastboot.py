@@ -9,14 +9,14 @@
 from typing import Any, Dict, List, Optional
 
 from tuxlava import templates
-from tuxlava.devices import Device
+from tuxlava.devices import Device, StorageDevice
 from tuxlava.exceptions import InvalidArgument
 from tuxlava.utils import compression, notnone, slugify
 
 KIR_IMAGE = "linaro/kir:20260611"
 
 
-class FastbootDevice(Device):
+class FastbootDevice(StorageDevice, Device):
     arch: str = ""
     lava_arch: str = ""
     machine: str = ""
@@ -61,9 +61,6 @@ class FastbootDevice(Device):
     erase_commands: List[str] = []
 
     extra_prompts: List[str] = []
-
-    needs_storage_prep: bool = False
-    storage_device: str = "$(lava-target-storage SATA || lava-target-storage USB)"
 
     deploy_docker_image: str = KIR_IMAGE
     deploy_fastboot_docker_image: str = KIR_IMAGE
@@ -173,8 +170,10 @@ class FastbootDevice(Device):
             )
             for t in kwargs["tests"]
         ]
-        return templates.jobs().get_template(self.template).render(**kwargs) + "".join(
-            tests
+        return (
+            templates.jobs().get_template(self.template).render(**kwargs)
+            + templates.jobs().get_template("storage-prep.yaml.jinja2").render(**kwargs)
+            + "".join(tests)
         )
 
     def device_dict(
