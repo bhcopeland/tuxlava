@@ -23,6 +23,15 @@ class StorageDevice:
 
     needs_storage_prep: bool = False
     storage_device: str = "$(lava-target-storage SATA || lava-target-storage USB)"
+    # Minutes reserved in the job timeout for the prep and teardown actions,
+    # split evenly between the two.
+    storage_timeout: int = 10
+
+    @property
+    def storage_prep_timeout(self) -> int:
+        if self.needs_storage_prep:
+            return self.storage_timeout
+        return 0
 
 
 class Device:

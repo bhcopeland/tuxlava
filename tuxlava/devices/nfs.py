@@ -138,6 +138,9 @@ class NfsDevice(StorageDevice, Device):
             templates.jobs().get_template("nfs.yaml.jinja2").render(**kwargs)
             + templates.jobs().get_template("storage-prep.yaml.jinja2").render(**kwargs)
             + "".join(tests)
+            + templates.jobs()
+            .get_template("storage-teardown.yaml.jinja2")
+            .render(**kwargs)
         )
 
     def device_dict(

@@ -1,0 +1,21 @@
+{%- set rootfs_format = compression(rootfs or "")[0] -%}
+{%- set is_cpio = (rootfs_format == "cpio.newc" or "ramdisk" in (rootfs or "")|lower) -%}
+{% if not is_cpio and device.needs_storage_prep %}
+
+- test:
+    timeout:
+      minutes: {{ device.storage_timeout // 2 }}
+    definitions:
+    - from: inline
+      repository:
+        metadata:
+          format: Lava-Test Test Definition 1.0
+          name: storage-teardown
+          description: "Sync and unmount scratch storage"
+        run:
+          steps:
+          - sync
+          - umount /scratch || true
+      name: storage-teardown-inline
+      path: inline/storage-teardown.yaml
+{% endif %}
