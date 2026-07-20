@@ -31,7 +31,9 @@ fastboot-aosp-qrb5165-rb5       |
 fastboot-dragonboard-410c       |
 fastboot-dragonboard-845c       |
 fastboot-exynos850-e850-96      |
+fastboot-gs101-oriole           |
 fastboot-oe-dragonboard-845c    |
+fastboot-qrb5165-rb5            |
 fastboot-x15                    |
 
 ## FVP devices
