@@ -218,7 +218,6 @@ class FastbootE850_96(FastbootDevice):
     downloads_image_name = "userdata"
     fastboot_image_name = "userdata"
     pre_boot_commands = ["pre_power_command"]
-    post_boot_commands = ["pre_os_command"]
 
 
 class FastbootDragonboard_410c(FastbootDevice):
@@ -248,7 +247,7 @@ class FastbootDragonboard_845c(FastbootDevice):
     supports_ramdisk = True
     needs_partition_flash = True
     needs_boot_img_reboot = True
-    pre_boot_commands = ["pre_os_command", "pre_power_command"]
+    pre_boot_commands = ["pre_power_command"]
     boot_docker_local = True
     extra_prompts = ["dragonboard-845c:"]
 
@@ -322,7 +321,7 @@ class FastbootQRB5165rb5(FastbootDevice):
     supports_ramdisk = True
     needs_partition_flash = True
     needs_boot_img_reboot = True
-    pre_boot_commands = ["pre_os_command", "pre_power_command"]
+    pre_boot_commands = ["pre_power_command"]
 
 
 class FastbootAOSPDevice(Device):

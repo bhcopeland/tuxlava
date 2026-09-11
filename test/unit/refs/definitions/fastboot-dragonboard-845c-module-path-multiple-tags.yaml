@@ -80,8 +80,6 @@ actions:
         url: downloads://rootfs.img
 
 - command:
-    name: pre_os_command
-- command:
     name: pre_power_command
 - boot:
     docker:
